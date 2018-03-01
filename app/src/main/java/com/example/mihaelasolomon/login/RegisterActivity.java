@@ -39,11 +39,14 @@ public class RegisterActivity extends AppCompatActivity {
                 else if(pass.getText().length() < 4) {
                     Toast.makeText(RegisterActivity.this, "Parola este prea scurta.", Toast.LENGTH_SHORT).show();
                 }
-                else if(!pass.getText().equals(confirmPass.getText())) {
+                /*else if(!pass.getText().toString().equals(confirmPass.getText().toString())) {
                     Toast.makeText(RegisterActivity.this, "Parolele nu sunt identice.", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 else {
                     //todo: baza de date
+                    DBHelper dbhelper = new DBHelper(getApplicationContext());
+                    boolean x = dbhelper.createUser(user.getText().toString(), pass.getText().toString(), mail.getText().toString(), dbhelper, getApplicationContext());
+
                     RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                 }
             }

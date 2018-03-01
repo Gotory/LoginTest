@@ -2,9 +2,13 @@ package com.example.mihaelasolomon.login;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -32,8 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean createUser(String user, String pass, String mail, DBHelper context, Context DBHelper) {
-        SQLiteDatabase database=context.getWritableDatabase();
+    public boolean createUser(String user, String pass, String mail, DBHelper dbhelper, Context context) {
+        SQLiteDatabase database=dbhelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put("USERNAME", user);
@@ -45,8 +49,42 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         catch(Exception e)
         {
-            Toast.makeText(DBHelper, "Eroare la insertie.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Eroare la insertie.", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    public ArrayList<User> getUsers(DBHelper dbhelper)
+    {
+        SQLiteDatabase db = dbhelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * from users_table", null);
+
+        ArrayList<User> users = new ArrayList<User>();
+
+        while (cursor.moveToNext())
+        {
+            User user = new User();
+            user.user = cursor.getString(cursor.getColumnIndex("USERNAME"));
+            user.email = cursor.getString(cursor.getColumnIndex("EMAIL"));
+
+            users.add(user);
+        }
+
+        return users;
+    }
+
+    public boolean deleteUser(String username, DBHelper dbhelper, Context context)
+    {
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        try {
+            db.delete(TABLE_NAME, "USERNAME=?", new String[]{username});
+        }
+        catch (Exception e) {
+            Log.d("+++", e.getStackTrace().toString());
+            return false;
+        }
+        return true;
     }
 }
