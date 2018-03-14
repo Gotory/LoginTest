@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class RegisterActivity extends AppCompatActivity {
 
     public Button register;
@@ -15,6 +17,8 @@ public class RegisterActivity extends AppCompatActivity {
     public EditText mail;
     public EditText pass;
     public EditText confirmPass;
+
+    public boolean test = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,17 @@ public class RegisterActivity extends AppCompatActivity {
         mail = findViewById(R.id.editText4);
         pass = findViewById(R.id.editText5);
         confirmPass = findViewById(R.id.editText6);
+
+        if (test)
+        {
+            Random r = new Random();
+            int result = r.nextInt(100000 - 10000);
+            user.setText("test" + result);
+            mail.setText("test" + result + "@test.test");
+            pass.setText("test123");
+            confirmPass.setText("test123");
+        }
+
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override

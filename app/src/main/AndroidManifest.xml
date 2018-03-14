@@ -17,12 +17,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".Activity1"></activity>
+        <activity android:name=".Activity1" />
+
         <receiver android:name=".rectest">
             <intent-filter>
                 <action android:name="broadcast" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
